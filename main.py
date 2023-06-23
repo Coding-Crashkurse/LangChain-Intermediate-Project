@@ -73,15 +73,17 @@ functions = [
 
 
 
-chat = ChatOpenAI(temperature=0, )
+chat = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613")
 
 messages = [
     SystemMessage(
         content=system_message
     ),
     HumanMessage(
-        content="What is the new way"
+        content="I really liked the restaurant. It was awesome!"
     ),
 ]
-result = chat.predict_messages(messages=messages, functions=functions)
+result = chat.predict_messages(messages=messages,
+functions=functions
+)
 print(result)
