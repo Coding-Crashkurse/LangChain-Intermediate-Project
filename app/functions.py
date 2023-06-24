@@ -32,3 +32,11 @@ def create_review(review_text: str):
     session.commit()
     session.close()
     return "Review created"
+
+api_functions = {
+    "create_review": create_review,
+    "create_order": create_order,
+    "get_pizza_info": get_pizza_info,
+}
+
+### Function
