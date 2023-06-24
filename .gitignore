@@ -1,2 +1,6 @@
 .env
 .idea
+vectorstore.pkl
+pizzadb.db
+__pycache__/
+*.pyc

@@ -6,7 +6,7 @@ from dotenv import find_dotenv, load_dotenv
 
 
 class OpenAIHandler:
-    def __init__(self, api_functions, function_definitions, model="gpt-3.5-turbo-0613"):
+    def __init__(self, api_functions, function_definitions, system_message, model="gpt-3.5-turbo-0613"):
         load_dotenv(find_dotenv())
         openai.api_key = os.environ.get("OPENAI_API_KEY")
         if openai.api_key is None:
@@ -15,11 +15,18 @@ class OpenAIHandler:
         self.api_functions = api_functions
         self.function_definitions = function_definitions
         self.model = model
+        self.system_message = system_message
 
     def send_message(self, query):
         response = openai.ChatCompletion.create(
             model=self.model,
-            messages=[{"role": "user", "content": query}],
+            messages=[
+                {
+                    "role": "system",
+                    "content": self.system_message,
+                },
+                {"role": "user", "content": query},
+            ],
             functions=self.function_definitions,
         )
         message = response["choices"][0]["message"]
@@ -50,6 +57,10 @@ class OpenAIHandler:
             second_response = openai.ChatCompletion.create(
                 model=self.model,
                 messages=[
+                    {
+                        "role": "system",
+                        "content": self.system_message,
+                    },
                     {"role": "user", "content": query},
                     message,
                     {

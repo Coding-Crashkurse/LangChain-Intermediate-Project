@@ -41,21 +41,18 @@ functions = [
             "required": ["review_text"],
         },
     },
-{
-    "name": "ask_vector_db",
-    "description": "Ask a question about the restaurant, ingredients and foods of the restaurant in general",
-    "parameters": {
-        "type": "object",
-        "properties": {
-            "question": {
-                "type": "string",
-                "description": "The question to ask, e.g. 'What is the most popular pizza topping?'",
+    {
+        "name": "ask_vector_db",
+        "description": "Ask any question related to our restaurant. This can include queries about our opening hours, menu items, ingredients used, special dietary accommodations, ongoing promotions, or health and safety measures in place.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "question": {
+                    "type": "string",
+                    "description": "The question to ask, e.g. 'What is the most popular pizza topping?'",
+                },
             },
+            "required": ["question"],
         },
-        "required": ["question"],
     },
-}
-
 ]
-
-

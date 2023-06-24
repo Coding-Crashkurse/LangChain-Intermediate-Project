@@ -3,10 +3,9 @@ import os
 from app.db import Session, Pizza, Order, Review
 from app.prompts import QA_PROMPT
 import json
-from data.store import load_store
 from langchain.llms import OpenAI
 from langchain.chains import RetrievalQA
-
+from app.store import get_vectorstore
 
 
 def get_pizza_info(pizza_name: str):
@@ -32,6 +31,7 @@ def create_order(pizza_name: str):
         session.close()
         return "Pizza not found"
 
+
 def create_review(review_text: str):
     session = Session()
     review = Review(review=review_text)
@@ -46,19 +46,19 @@ def ask_vector_db(question: str):
     qa = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
-        retriever=load_store().as_retriever(),
+        retriever=get_vectorstore().as_retriever(),
         chain_type_kwargs={"prompt": QA_PROMPT},
     )
     result = qa.run(question)
     return result
 
+
 api_functions = {
     "create_review": create_review,
     "create_order": create_order,
     "get_pizza_info": get_pizza_info,
-    "ask_vector_db": ask_vector_db
+    "ask_vector_db": ask_vector_db,
 }
-
 
 
 ### Just for initialisation
@@ -75,7 +75,7 @@ def create_pizzas():
         "Supreme": 10.99,
         "Meat Lovers": 11.99,
         "Taco": 9.99,
-        "Seafood": 12.99
+        "Seafood": 12.99,
     }
 
     for name, price in pizzas.items():

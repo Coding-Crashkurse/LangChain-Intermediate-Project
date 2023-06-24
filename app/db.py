@@ -7,7 +7,7 @@ Base = declarative_base()
 
 
 class Pizza(Base):
-    __tablename__ = 'pizzas'
+    __tablename__ = "pizzas"
     id = Column(Integer, primary_key=True)
     name = Column(String)
     price = Column(Float)
@@ -18,9 +18,9 @@ class Pizza(Base):
 
 
 class Order(Base):
-    __tablename__ = 'orders'
+    __tablename__ = "orders"
     id = Column(Integer, primary_key=True)
-    pizza_id = Column(Integer, ForeignKey('pizzas.id'))
+    pizza_id = Column(Integer, ForeignKey("pizzas.id"))
     pizza = relationship("Pizza", back_populates="orders")
 
     def to_json(self):
@@ -28,7 +28,7 @@ class Order(Base):
 
 
 class Review(Base):
-    __tablename__ = 'reviews'
+    __tablename__ = "reviews"
     id = Column(Integer, primary_key=True)
     review = Column(String)
 
@@ -37,5 +37,5 @@ class Review(Base):
 
 
 # Setting up the engine and session
-engine = create_engine('sqlite:///pizzadb.db')
+engine = create_engine("sqlite:///pizzadb.db")
 Session = sessionmaker(bind=engine)

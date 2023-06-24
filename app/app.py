@@ -4,19 +4,26 @@ from app.functions import api_functions, create_pizzas
 from app.handler import OpenAIHandler
 from app.models import Interaction
 from app.db import Base, engine
+from app.prompts import system_message
 import os
+from app.store import create_store
 
 app = FastAPI()
-handler = OpenAIHandler(api_functions, functions)
+handler = OpenAIHandler(api_functions, functions, system_message)
+
 
 @app.on_event("startup")
 async def startup_event():
     Base.metadata.create_all(bind=engine)
     create_pizzas()
+    if not os.path.exists("vectorstore.pkl"):
+        create_store()
+
 
 @app.on_event("shutdown")
 async def shutdown_event():
-    os.remove('pizzadb.db')
+    os.remove("pizzadb.db")
+
 
 @app.post("/conversation")
 async def query_endpoint(interaction: Interaction):
