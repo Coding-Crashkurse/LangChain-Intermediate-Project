@@ -7,6 +7,7 @@ from app.db import Base, engine
 from app.prompts import system_message
 import os
 from app.store import create_store
+from app.db import Session, Review, Order
 
 app = FastAPI()
 handler = OpenAIHandler(api_functions, functions, system_message)
@@ -29,3 +30,19 @@ async def shutdown_event():
 async def query_endpoint(interaction: Interaction):
     response = handler.send_response(interaction.query)
     return {"response": response}
+
+
+@app.get("/reviews")
+async def get_all_reviews():
+    session = Session()
+    reviews = session.query(Review).all()
+    session.close()
+    return reviews
+
+
+@app.get("/orders")
+async def get_all_orders():
+    session = Session()
+    orders = session.query(Order).all()
+    session.close()
+    return orders

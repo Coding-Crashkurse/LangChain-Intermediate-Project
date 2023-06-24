@@ -14,3 +14,4 @@ class Conversation(BaseModel):
 class Interaction(BaseModel):
     conversation: Conversation
     query: str
+

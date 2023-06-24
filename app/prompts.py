@@ -26,4 +26,3 @@ Your Response:"""
 QA_PROMPT = PromptTemplate(
     template=qa_template, input_variables=["system_message", "context", "question"]
 )
-
